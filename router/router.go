@@ -1,22 +1,17 @@
 package router
 
 import (
-	database "restfullapi/databse"
-	"restfullapi/handler"
 	"restfullapi/middleware"
-	"restfullapi/repository"
-	"restfullapi/service"
+	"restfullapi/wire"
 
 	"github.com/go-chi/chi/v5"
 )
 
 func NewRouter() *chi.Mux {
-	r := chi.NewRouter()
-	db := database.NewPostgresDB()
 
-	repo := repository.NewProductRepository(db)
-	srv := service.NewProductService(repo)
-	h := handler.NewProductHandler(srv)
+	r := chi.NewRouter()
+
+	h := wire.InitializProductHandler()
 
 	r.Use(middleware.Logger)
 	r.Use(middleware.BasicAuth)
